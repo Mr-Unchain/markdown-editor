@@ -230,3 +230,75 @@
 **Context**: CONSTRUCTION - U1 NFR Requirements - Step 8-9
 
 ---
+
+## CONSTRUCTION - U1 Foundation: NFR Design (アーティファクト生成)
+**Timestamp**: 2026-03-18T00:25:00Z
+**User Input**: N/A（質問なし、直接生成）
+**AI Response**: U1基盤コンポーネントのNFR要件が明確なため、質問なしで設計アーティファクトを生成。2アーティファクト作成: nfr-design-patterns.md（7パターン: P1遅延初期化, P2デバウンス書き込み, R1セーフラッパー, R2デフォルトフォールバック, R3グレースフルデグラデーション, S1アダプターパターン, S2ストアパターン）, logical-components.md（レイヤー構成図、起動シーケンス、データフロー、ファイル配置計画）。
+**Context**: CONSTRUCTION - U1 NFR Design - Step 1-6
+
+---
+
+## CONSTRUCTION - U1 Foundation: NFR Design (承認)
+**Timestamp**: 2026-03-18T00:26:00Z
+**User Input**: "OKです"
+**AI Response**: U1 NFR Design承認を確認。Code Generationへ進む。
+**Context**: CONSTRUCTION - U1 NFR Design - Step 7-9
+
+---
+
+## CONSTRUCTION - U1 Foundation: Code Generation Part 1 (プラン作成)
+**Timestamp**: 2026-03-18T00:27:00Z
+**User Input**: N/A（NFR Design承認後に自動遷移）
+**AI Response**: U1 Foundation コード生成プランを作成。18ステップ、約53ファイルの生成計画。プロジェクトセットアップ → 型定義 → FileSystemAdapter → SecureStorage → SettingsManager → Stores → UIShell → App Init → サマリーの順で実行。
+**Context**: CONSTRUCTION - U1 Code Generation - Part 1, Step 1-6
+
+---
+
+## CONSTRUCTION - U1 Foundation: Code Generation Part 1 (プラン承認)
+**Timestamp**: 2026-03-18T00:28:00Z
+**User Input**: "OK"
+**AI Response**: コード生成プラン承認を確認。Part 2（コード生成）を開始。
+**Context**: CONSTRUCTION - U1 Code Generation - Part 1, Step 7-9
+
+---
+
+## CONSTRUCTION - U1 Foundation: Code Generation Part 2 (コード生成完了)
+**Timestamp**: 2026-03-18T00:30:00Z
+**User Input**: N/A（プラン承認後に自動実行）
+**AI Response**: 全18ステップのコード生成を完了。生成ファイル: 設定7 + Tauri4 + 型定義4 + Infrastructure8 + Core3 + Store5 + UI7 + Init2 + その他3 + テスト14 = 約57ファイル。全NFRパターン（P1遅延初期化, P2デバウンス, R1セーフラッパー, R2フォールバック, R3グレースフルデグラデーション, S1アダプター, S2ストア）を実装に反映。
+**Context**: CONSTRUCTION - U1 Code Generation - Part 2, Step 10-14
+
+---
+
+## CONSTRUCTION - U1 Foundation: Svelte 5 Runes移行 + context7検証
+**Timestamp**: 2026-03-18T01:00:00Z
+**User Input**: "context7を使って、古い書き方をしていないかを確認しながら進めてください。"
+**AI Response**: context7でSvelte 5, Tauri 2 Stronghold, SvelteKit adapter-staticの最新ドキュメントを検証。Svelte 4 writableストア→Svelte 5 $state rune、TauriSecureStorageのStronghold API修正、全テスト更新。17ファイル113テスト全パス。
+**Context**: CONSTRUCTION - U1 Code Generation - context7検証+Svelte 5移行
+
+---
+
+## CONSTRUCTION - U1 Foundation: Code Generation承認
+**Timestamp**: 2026-03-18T01:10:00Z
+**User Input**: "次のステージに進みます。context7は逐次使って、確認は実施するように計画にも記載しておいてください。"
+**AI Response**: U1承認確認。U2 Core Editor Functional Designを開始。context7による逐次検証を計画に組み込む。
+**Context**: CONSTRUCTION - U1 Code Generation Complete → U2 Functional Design
+
+---
+
+## CONSTRUCTION - U2 Core Editor: Functional Design 質問回答
+**Timestamp**: 2026-03-18T01:15:00Z
+**User Input**: "回答しました" (質問ファイルに回答記入: Q1:C, Q2:A, Q3:A, Q4:A, Q5:B, Q6:C, Q7:D, Q8:C)
+**AI Response**: 回答確認。矛盾・曖昧さなし。context7でTiptap v2 API（Svelte初期化、CodeBlockLowlight、Suggestion、Markdown拡張、BubbleMenu）を検証。4つのFunctional Design成果物を生成: business-logic-model.md, domain-entities.md, business-rules.md, frontend-components.md。
+**Context**: CONSTRUCTION - U2 Functional Design - Step 4-9
+
+---
+
+## CONSTRUCTION - U2 Core Editor: Functional Design 承認
+**Timestamp**: 2026-03-18T01:25:00Z
+**User Input**: "OK"
+**AI Response**: Functional Design承認確認。U2 NFR Requirementsステージを開始。
+**Context**: CONSTRUCTION - U2 Functional Design Complete → U2 NFR Requirements
+
+---

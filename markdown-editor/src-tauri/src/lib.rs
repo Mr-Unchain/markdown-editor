@@ -1,0 +1,15 @@
+use tauri::Manager;
+
+#[cfg_attr(mobile, tauri::mobile_entry_point)]
+pub fn run() {
+    tauri::Builder::default()
+        .plugin(tauri_plugin_fs::init())
+        .plugin(tauri_plugin_dialog::init())
+        .plugin(tauri_plugin_stronghold::Builder::new(|_| todo!("set stronghold password")).build())
+        .plugin(tauri_plugin_process::init())
+        .setup(|_app| {
+            Ok(())
+        })
+        .run(tauri::generate_context!())
+        .expect("error while running tauri application");
+}

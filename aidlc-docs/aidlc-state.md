@@ -46,8 +46,14 @@
 ### OPERATIONS PHASE
 - [ ] Operations - PLACEHOLDER
 
+## Unit Progress
+- [x] U1: Foundation — Code Generation Complete (Svelte 5 runes移行完了、113テスト全パス)
+- [ ] U2: Core Editor — Functional Design ✅ → NFR Requirements (next)
+- [ ] U3: File Management
+- [ ] U4: Platform Integration
+
 ## Current Status
-- **Lifecycle Phase**: INCEPTION
-- **Current Stage**: Units Generation Complete
-- **Next Stage**: CONSTRUCTION PHASE - U1 Foundation
-- **Status**: Awaiting user approval
+- **Lifecycle Phase**: CONSTRUCTION
+- **Current Stage**: U2 Core Editor - NFR Requirements
+- **Next Stage**: U2 Core Editor - NFR Design
+- **Status**: U2 Functional Design承認済み。NFR Requirements開始

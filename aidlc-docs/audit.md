@@ -310,3 +310,11 @@
 **Context**: CONSTRUCTION - U2 NFR Requirements - Step 4-7
 
 ---
+
+## Session Resumption
+**Timestamp**: 2026-03-20T00:00:00Z
+**User Input**: "現在、AI-DLCを用いた開発工程の最中だと思います。続きから作業を再開してくれますか？"
+**AI Response**: セッション再開。aidlc-state.md確認 — U2 Core Editor NFR Requirements完了待ち（アーティファクト生成済み、承認未取得）。NFR Requirements完了メッセージを再提示。
+**Context**: Session Continuity - Resume at U2 NFR Requirements Step 7
+
+---

@@ -302,3 +302,11 @@
 **Context**: CONSTRUCTION - U2 Functional Design Complete → U2 NFR Requirements
 
 ---
+
+## CONSTRUCTION - U2 Core Editor: NFR Requirements 質問回答
+**Timestamp**: 2026-03-21T10:00:00Z
+**User Input**: "回答しました" (質問ファイルに回答記入: Q1:B, Q2:B, Q3:B, Q4:C, Q5:B)
+**AI Response**: 回答確認。矛盾・曖昧さなし。context7でTiptapパフォーマンス・アクセシビリティガイド、highlight.js個別言語インポートを検証。nfr-requirements.md（15要件）とtech-stack-decisions.md（Tiptap 2.x + 13エクステンション + lowlight + tippy.js + 同梱プラグイン3種）を生成。
+**Context**: CONSTRUCTION - U2 NFR Requirements - Step 4-7
+
+---

@@ -38,7 +38,6 @@
  * The above values will be the same _even if_ different values for `ENVIRONMENT` or `PUBLIC_BASE_URL` are set at runtime, as they are statically replaced in your code with their build time values.
  */
 declare module '$env/static/private' {
-	export const ACLOCAL_PATH: string;
 	export const ALLUSERSPROFILE: string;
 	export const APPDATA: string;
 	export const BASE_URL: string;
@@ -53,39 +52,26 @@ declare module '$env/static/private' {
 	export const CommonProgramW6432: string;
 	export const COMPUTERNAME: string;
 	export const COMSPEC: string;
-	export const CONFIG_SITE: string;
 	export const COREPACK_ENABLE_AUTO_PIN: string;
 	export const DEV: string;
-	export const DISPLAY: string;
 	export const DriverData: string;
 	export const EDITOR: string;
-	export const EFC_28456_1592913036: string;
+	export const EFC_13664_1592913036: string;
 	export const EXEPATH: string;
 	export const GITHUB_TOKEN: string;
 	export const GIT_ASKPASS: string;
 	export const GIT_EDITOR: string;
-	export const GK_GL_ADDR: string;
-	export const GK_GL_PATH: string;
 	export const HOME: string;
 	export const HOMEDRIVE: string;
 	export const HOMEPATH: string;
-	export const HOSTNAME: string;
-	export const INFOPATH: string;
 	export const INIT_CWD: string;
 	export const LANG: string;
 	export const LOCALAPPDATA: string;
 	export const LOGONSERVER: string;
-	export const MANPATH: string;
 	export const MICROCMS_API_KEY: string;
 	export const MICROCMS_SERVICE_ID: string;
-	export const MINGW_CHOST: string;
-	export const MINGW_PACKAGE_PREFIX: string;
-	export const MINGW_PREFIX: string;
 	export const MODE: string;
 	export const MSYSTEM: string;
-	export const MSYSTEM_CARCH: string;
-	export const MSYSTEM_CHOST: string;
-	export const MSYSTEM_PREFIX: string;
 	export const NODE: string;
 	export const NoDefaultCurrentDirectoryInExePath: string;
 	export const NODE_ENV: string;
@@ -115,16 +101,10 @@ declare module '$env/static/private' {
 	export const OLDPWD: string;
 	export const OneDrive: string;
 	export const OneDriveConsumer: string;
-	export const ORIGINAL_PATH: string;
-	export const ORIGINAL_TEMP: string;
-	export const ORIGINAL_TMP: string;
 	export const OS: string;
 	export const OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE: string;
 	export const PATH: string;
 	export const PATHEXT: string;
-	export const PKG_CONFIG_PATH: string;
-	export const PKG_CONFIG_SYSTEM_INCLUDE_PATH: string;
-	export const PKG_CONFIG_SYSTEM_LIBRARY_PATH: string;
 	export const PLINK_PROTOCOL: string;
 	export const PROCESSOR_ARCHITECTURE: string;
 	export const PROCESSOR_IDENTIFIER: string;
@@ -141,7 +121,6 @@ declare module '$env/static/private' {
 	export const SESSIONNAME: string;
 	export const SHELL: string;
 	export const SHLVL: string;
-	export const SSH_ASKPASS: string;
 	export const SYSTEMDRIVE: string;
 	export const SYSTEMROOT: string;
 	export const TEMP: string;
@@ -150,7 +129,6 @@ declare module '$env/static/private' {
 	export const TERM_PROGRAM_VERSION: string;
 	export const TEST: string;
 	export const TMP: string;
-	export const TMPDIR: string;
 	export const USERDOMAIN: string;
 	export const USERDOMAIN_ROAMINGPROFILE: string;
 	export const USERNAME: string;
@@ -251,7 +229,6 @@ declare module '$env/static/public' {
  */
 declare module '$env/dynamic/private' {
 	export const env: {
-		ACLOCAL_PATH: string;
 		ALLUSERSPROFILE: string;
 		APPDATA: string;
 		BASE_URL: string;
@@ -266,39 +243,26 @@ declare module '$env/dynamic/private' {
 		CommonProgramW6432: string;
 		COMPUTERNAME: string;
 		COMSPEC: string;
-		CONFIG_SITE: string;
 		COREPACK_ENABLE_AUTO_PIN: string;
 		DEV: string;
-		DISPLAY: string;
 		DriverData: string;
 		EDITOR: string;
-		EFC_28456_1592913036: string;
+		EFC_13664_1592913036: string;
 		EXEPATH: string;
 		GITHUB_TOKEN: string;
 		GIT_ASKPASS: string;
 		GIT_EDITOR: string;
-		GK_GL_ADDR: string;
-		GK_GL_PATH: string;
 		HOME: string;
 		HOMEDRIVE: string;
 		HOMEPATH: string;
-		HOSTNAME: string;
-		INFOPATH: string;
 		INIT_CWD: string;
 		LANG: string;
 		LOCALAPPDATA: string;
 		LOGONSERVER: string;
-		MANPATH: string;
 		MICROCMS_API_KEY: string;
 		MICROCMS_SERVICE_ID: string;
-		MINGW_CHOST: string;
-		MINGW_PACKAGE_PREFIX: string;
-		MINGW_PREFIX: string;
 		MODE: string;
 		MSYSTEM: string;
-		MSYSTEM_CARCH: string;
-		MSYSTEM_CHOST: string;
-		MSYSTEM_PREFIX: string;
 		NODE: string;
 		NoDefaultCurrentDirectoryInExePath: string;
 		NODE_ENV: string;
@@ -328,16 +292,10 @@ declare module '$env/dynamic/private' {
 		OLDPWD: string;
 		OneDrive: string;
 		OneDriveConsumer: string;
-		ORIGINAL_PATH: string;
-		ORIGINAL_TEMP: string;
-		ORIGINAL_TMP: string;
 		OS: string;
 		OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE: string;
 		PATH: string;
 		PATHEXT: string;
-		PKG_CONFIG_PATH: string;
-		PKG_CONFIG_SYSTEM_INCLUDE_PATH: string;
-		PKG_CONFIG_SYSTEM_LIBRARY_PATH: string;
 		PLINK_PROTOCOL: string;
 		PROCESSOR_ARCHITECTURE: string;
 		PROCESSOR_IDENTIFIER: string;
@@ -354,7 +312,6 @@ declare module '$env/dynamic/private' {
 		SESSIONNAME: string;
 		SHELL: string;
 		SHLVL: string;
-		SSH_ASKPASS: string;
 		SYSTEMDRIVE: string;
 		SYSTEMROOT: string;
 		TEMP: string;
@@ -363,7 +320,6 @@ declare module '$env/dynamic/private' {
 		TERM_PROGRAM_VERSION: string;
 		TEST: string;
 		TMP: string;
-		TMPDIR: string;
 		USERDOMAIN: string;
 		USERDOMAIN_ROAMINGPROFILE: string;
 		USERNAME: string;

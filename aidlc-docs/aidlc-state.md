@@ -49,11 +49,11 @@
 ## Unit Progress
 - [x] U1: Foundation — Code Generation Complete (Svelte 5 runes移行完了、113テスト全パス)
 - [x] U2: Core Editor — Functional Design ✅ → NFR Requirements ✅ → NFR Design ✅ → Code Generation ✅
-- [ ] U3: File Management — Functional Design (next)
+- [ ] U3: File Management — Functional Design ✅ → NFR Requirements (next)
 - [ ] U4: Platform Integration
 
 ## Current Status
 - **Lifecycle Phase**: CONSTRUCTION
-- **Current Stage**: U3 File Management - Functional Design
-- **Next Stage**: U3 File Management - NFR Requirements
-- **Status**: U2 Code Generation承認済み。U3 Functional Design開始
+- **Current Stage**: U3 File Management - NFR Requirements
+- **Next Stage**: U3 File Management - NFR Design
+- **Status**: U3 Functional Design承認済み。U3 NFR Requirements開始

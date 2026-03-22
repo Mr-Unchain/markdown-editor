@@ -10,6 +10,7 @@ export function mergeWithDefaults(
     recentWorkspaces: Array.isArray(partial.recentWorkspaces)
       ? partial.recentWorkspaces.slice(0, SETTINGS_CONSTRAINTS.maxRecentWorkspaces)
       : defaults.recentWorkspaces,
+    session: partial.session ?? defaults.session,
     editor: {
       ...defaults.editor,
       ...partial.editor,

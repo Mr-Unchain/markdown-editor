@@ -1,5 +1,6 @@
 import type { DirEntry, FileFilter } from '$lib/types/filesystem'
-import type { FileSystemAdapter } from './types'
+import type { FileInfo, WatchEvent } from '$lib/types/file-manager'
+import type { FileSystemAdapter, UnwatchFn, WatchOptions } from './types'
 
 export class WebFileSystemAdapter implements FileSystemAdapter {
   private dirHandles = new Map<string, FileSystemDirectoryHandle>()
@@ -100,6 +101,48 @@ export class WebFileSystemAdapter implements FileSystemAdapter {
     }
     await parentHandle.removeEntry(name, { recursive: true })
     this.dirHandles.delete(path)
+  }
+
+  async removeDir(path: string, options?: { recursive: boolean }): Promise<void> {
+    const { parentPath, name } = this.splitPath(path)
+    const parentHandle = this.dirHandles.get(parentPath)
+    if (!parentHandle) {
+      throw new Error(`Parent directory not opened: ${parentPath}`)
+    }
+    await parentHandle.removeEntry(name, { recursive: options?.recursive ?? false })
+    this.dirHandles.delete(path)
+  }
+
+  async copyFile(src: string, dest: string): Promise<void> {
+    const content = await this.readFile(src)
+    await this.writeFile(dest, content)
+  }
+
+  async getFileInfo(path: string): Promise<FileInfo> {
+    const fileHandle = await this.getFileHandle(path)
+    const file = await fileHandle.getFile()
+    return {
+      size: file.size,
+      isSymlink: false,
+      lastModified: file.lastModified,
+    }
+  }
+
+  async readFilePartial(path: string, offset: number, length: number): Promise<Uint8Array> {
+    const fileHandle = await this.getFileHandle(path)
+    const file = await fileHandle.getFile()
+    const blob = file.slice(offset, offset + length)
+    const buffer = await blob.arrayBuffer()
+    return new Uint8Array(buffer)
+  }
+
+  async watch(
+    _path: string,
+    _callback: (event: WatchEvent) => void,
+    _options?: WatchOptions,
+  ): Promise<UnwatchFn> {
+    // Web File System Access API does not support file watching
+    return async () => {}
   }
 
   async openFolderDialog(): Promise<string | null> {

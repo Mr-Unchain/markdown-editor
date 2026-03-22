@@ -424,3 +424,59 @@ Q1:A（小規模〜100ファイル）, Q2:C（自動更新+衝突確認）, Q3:B
 **Context**: CONSTRUCTION - U3 NFR Requirements - Step 5-7
 
 ---
+
+## CONSTRUCTION - U3 File Management: NFR Requirements (承認)
+**Timestamp**: 2026-03-22T02:00:00Z
+**User Input**: "承認します。"
+**AI Response**: U3 NFR Requirements承認を確認。セルフレビューで発見した6件の問題を修正済み（起動バジェット整合性、タブ復元速度、クラッシュリカバリU2連携、200KB-1MB性能劣化、キーボードタブ並替、仮想スクロール注記）。U3 NFR Designを開始。
+**Context**: CONSTRUCTION - U3 NFR Requirements - Step 8-9
+
+---
+
+## CONSTRUCTION - U3 File Management: NFR Design (プラン作成)
+**Timestamp**: 2026-03-22T02:10:00Z
+**User Input**: N/A（NFR Requirements承認後に自動遷移）
+**AI Response**: U3 NFR Designプランを作成。Step 1-6（パフォーマンス5パターン、信頼性4パターン、セキュリティ2パターン、アクセシビリティ3パターン、論理コンポーネント6個、成果物生成）。3個の質問を生成。
+**Context**: CONSTRUCTION - U3 NFR Design - Step 2-4
+
+---
+
+## CONSTRUCTION - U3 File Management: NFR Design (質問回答+成果物生成)
+**Timestamp**: 2026-03-22T02:20:00Z
+**User Input**: "回答しました" — プランファイルに直接回答: Q1:C（全体+個別監視分離）, Q2:A（ワークスペース内.markdown-editor-recovery）, Q3:B（ステータスバー+設定画面）
+**AI Response**: 全3問の回答に曖昧さなし。NFR Design成果物を生成: nfr-design-patterns.md（14パターン: P5, R4, S2, A3）, logical-components.md（6論理コンポーネント + ファイル配置計画）。セルフレビューエージェントを起動。
+**Context**: CONSTRUCTION - U3 NFR Design - Step 5-6
+
+---
+
+## CONSTRUCTION - U3 File Management: NFR Design (承認)
+**Timestamp**: 2026-03-22T02:40:00Z
+**User Input**: "承認します。"
+**AI Response**: U3 NFR Design承認を確認。セルフレビューで4件のCritical（NFRカバレッジ漏れ: NFR-U3-02, 13, 17, 18）を修正。全18 NFRをカバーする18パターンに拡張。U3 Code Generationを開始。
+**Context**: CONSTRUCTION - U3 NFR Design - Step 8-9
+
+---
+
+## CONSTRUCTION - U3 File Management: Code Generation Part 1 (プラン作成)
+**Timestamp**: 2026-03-22T02:50:00Z
+**User Input**: N/A（NFR Design承認後に自動遷移）
+**AI Response**: U3 Code Generationプランを作成。16ステップ（型定義、ユーティリティ、FSAdapter拡張、ストア、コアロジック、UIコンポーネント、CSS、統合、テスト、サマリー）。約55ファイル、約120テスト見込み。全3ストーリー（US-09/10/11）と全18 NFRパターンのトレーサビリティを記載。
+**Context**: CONSTRUCTION - U3 Code Generation - Part 1, Step 1-6
+
+---
+
+## CONSTRUCTION - U3 File Management: Code Generation Part 1 (承認)
+**Timestamp**: 2026-03-22T03:00:00Z
+**User Input**: "承認します"
+**AI Response**: U3 Code Generationプラン承認を確認。Part 2（コード生成）を開始。
+**Context**: CONSTRUCTION - U3 Code Generation - Part 1, Step 7-9
+
+---
+
+## CONSTRUCTION - U3 File Management: Code Generation Part 2 (コード生成完了)
+**Timestamp**: 2026-03-22T06:00:00Z
+**User Input**: N/A（コンテキスト継続によるセッション再開）
+**AI Response**: U3 Code Generation Part 2を全16ステップ完了。Step 1-13は前セッションで完了済み。本セッションでStep 14（レイアウト統合: +layout.svelte更新、app-init.ts WorkspaceService統合、Ctrl+S/Ctrl+Wキーバインド追加）、Step 15（全339テスト実行・全パス）、Step 16（コード生成サマリー作成）を実行。セルフレビューでCRITICAL1件（content null guard）、HIGH2件（フォルダ削除タブ順序、clipboard catch）、MEDIUM1件（未使用import）を検出・修正。全339テスト再実行確認。
+**Context**: CONSTRUCTION - U3 Code Generation - Part 2, Steps 14-16 + self-review
+
+---

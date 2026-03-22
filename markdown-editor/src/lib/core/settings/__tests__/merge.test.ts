@@ -11,7 +11,7 @@ describe('mergeWithDefaults', () => {
 
   it('preserves valid partial settings', () => {
     const result = mergeWithDefaults({
-      editor: { fontSize: 20, theme: 'dark', editorWidth: 800 },
+      editor: { fontSize: 20, theme: 'dark', editorWidth: 800, maxTabs: 20, autoSave: { mode: 'manual' as const, debounceMs: 1000 } },
     })
     expect(result.editor.fontSize).toBe(20)
     expect(result.editor.theme).toBe('dark')
@@ -20,21 +20,21 @@ describe('mergeWithDefaults', () => {
 
   it('clamps fontSize to min', () => {
     const result = mergeWithDefaults({
-      editor: { fontSize: 2, theme: 'light', editorWidth: 720 },
+      editor: { fontSize: 2, theme: 'light', editorWidth: 720, maxTabs: 20, autoSave: { mode: 'manual' as const, debounceMs: 1000 } },
     })
     expect(result.editor.fontSize).toBe(8)
   })
 
   it('clamps fontSize to max', () => {
     const result = mergeWithDefaults({
-      editor: { fontSize: 100, theme: 'light', editorWidth: 720 },
+      editor: { fontSize: 100, theme: 'light', editorWidth: 720, maxTabs: 20, autoSave: { mode: 'manual' as const, debounceMs: 1000 } },
     })
     expect(result.editor.fontSize).toBe(48)
   })
 
   it('clamps editorWidth to range', () => {
     const result = mergeWithDefaults({
-      editor: { fontSize: 16, theme: 'light', editorWidth: 200 },
+      editor: { fontSize: 16, theme: 'light', editorWidth: 200, maxTabs: 20, autoSave: { mode: 'manual' as const, debounceMs: 1000 } },
     })
     expect(result.editor.editorWidth).toBe(400)
   })
@@ -42,20 +42,24 @@ describe('mergeWithDefaults', () => {
   it('resets invalid theme to default', () => {
     const result = mergeWithDefaults({
       // @ts-expect-error - testing invalid value
-      editor: { fontSize: 16, theme: 'purple', editorWidth: 720 },
+      editor: { fontSize: 16, theme: 'purple', editorWidth: 720, maxTabs: 20, autoSave: { mode: 'manual' as const, debounceMs: 1000 } },
     })
     expect(result.editor.theme).toBe('light')
   })
 
   it('handles NaN fontSize', () => {
     const result = mergeWithDefaults({
-      editor: { fontSize: NaN, theme: 'light', editorWidth: 720 },
+      editor: { fontSize: NaN, theme: 'light', editorWidth: 720, maxTabs: 20, autoSave: { mode: 'manual' as const, debounceMs: 1000 } },
     })
     expect(result.editor.fontSize).toBe(8) // clamp default
   })
 
   it('truncates recentWorkspaces to max 10', () => {
-    const workspaces = Array.from({ length: 15 }, (_, i) => `/workspace-${i}`)
+    const workspaces = Array.from({ length: 15 }, (_, i) => ({
+      path: `/workspace-${i}`,
+      name: `workspace-${i}`,
+      lastAccessedAt: new Date().toISOString(),
+    }))
     const result = mergeWithDefaults({ recentWorkspaces: workspaces })
     expect(result.recentWorkspaces).toHaveLength(10)
   })

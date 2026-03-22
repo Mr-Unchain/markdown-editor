@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { saveState } from '$lib/stores/save-status.svelte'
+  import { saveState, setAutoSaveMode } from '$lib/stores/save-status.svelte'
   import { fileState } from '$lib/stores/current-file.svelte'
+  import { tabsState, getActiveTab } from '$lib/stores/tabs.svelte'
 
   const statusLabels = {
     saved: '保存済み',
@@ -8,6 +9,11 @@
     saving: '保存中...',
     error: '保存エラー',
   } as const
+
+  function toggleAutoSave() {
+    const newMode = saveState.autoSaveMode === 'auto' ? 'manual' : 'auto'
+    setAutoSaveMode(newMode)
+  }
 </script>
 
 <footer class="statusbar" data-testid="statusbar">
@@ -20,6 +26,15 @@
   </div>
 
   <div class="statusbar-right">
+    <button
+      class="statusbar-item auto-save-toggle"
+      onclick={toggleAutoSave}
+      aria-label="自動保存の切替"
+      data-testid="statusbar-autosave-toggle"
+    >
+      {saveState.autoSaveMode === 'auto' ? '自動保存: ON' : '自動保存: OFF'}
+    </button>
+
     <span
       class="statusbar-item save-status"
       class:saved={saveState.status === 'saved'}
@@ -29,6 +44,12 @@
     >
       {statusLabels[saveState.status]}
     </span>
+
+    {#if tabsState.tabs.length > 0}
+      <span class="statusbar-item" data-testid="statusbar-tab-count">
+        タブ: {tabsState.tabs.length}
+      </span>
+    {/if}
   </div>
 </footer>
 
@@ -54,6 +75,21 @@
 
   .statusbar-item {
     opacity: 0.7;
+  }
+
+  .auto-save-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: inherit;
+    font-size: inherit;
+    padding: 0.125rem 0.375rem;
+    border-radius: 3px;
+  }
+
+  .auto-save-toggle:hover {
+    opacity: 1;
+    background: var(--color-hover);
   }
 
   .save-status.saved { color: var(--color-success); }

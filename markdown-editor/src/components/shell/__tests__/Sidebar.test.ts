@@ -1,11 +1,13 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { render, screen } from '@testing-library/svelte'
 import { layoutState, resetLayout } from '$lib/stores/layout.svelte'
+import { workspaceState } from '$lib/stores/workspace.svelte'
 import Sidebar from '../Sidebar.svelte'
 
 describe('Sidebar', () => {
   beforeEach(() => {
     resetLayout()
+    workspaceState.current = null
   })
 
   it('is hidden when sidebarVisible is false', () => {
@@ -19,18 +21,16 @@ describe('Sidebar', () => {
     expect(screen.getByTestId('sidebar')).toBeInTheDocument()
   })
 
-  it('shows files panel by default', () => {
+  it('shows empty state when no workspace is open', () => {
     layoutState.sidebarVisible = true
-    layoutState.sidebarPanel = 'files'
     render(Sidebar)
-    expect(screen.getByTestId('sidebar-files-panel')).toBeInTheDocument()
+    expect(screen.getByTestId('sidebar-empty')).toBeInTheDocument()
   })
 
-  it('shows settings panel when selected', () => {
+  it('shows open workspace button in empty state', () => {
     layoutState.sidebarVisible = true
-    layoutState.sidebarPanel = 'settings'
     render(Sidebar)
-    expect(screen.getByTestId('sidebar-settings-panel')).toBeInTheDocument()
+    expect(screen.getByTestId('sidebar-open-workspace')).toBeInTheDocument()
   })
 
   it('applies correct width', () => {

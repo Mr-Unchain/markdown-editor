@@ -6,10 +6,13 @@ describe('Settings types', () => {
     const settings: AppSettings = {
       lastWorkspacePath: null,
       recentWorkspaces: [],
+      session: null,
       editor: {
         fontSize: 16,
         theme: 'light',
         editorWidth: 720,
+        maxTabs: 20,
+        autoSave: { mode: 'manual', debounceMs: 1000 },
       },
       plugins: {
         enabled: {},

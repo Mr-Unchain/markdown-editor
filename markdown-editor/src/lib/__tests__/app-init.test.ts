@@ -15,6 +15,11 @@ vi.mock('$lib/infrastructure/filesystem/factory', () => ({
     exists: vi.fn().mockResolvedValue(false),
     rename: vi.fn(),
     remove: vi.fn(),
+    removeDir: vi.fn(),
+    copyFile: vi.fn(),
+    getFileInfo: vi.fn(),
+    readFilePartial: vi.fn(),
+    watch: vi.fn().mockResolvedValue(vi.fn()),
     openFolderDialog: vi.fn(),
     openFileDialog: vi.fn(),
     saveFileDialog: vi.fn(),
@@ -46,6 +51,7 @@ describe('app-init', () => {
     expect(context.fs).toBeDefined()
     expect(context.secureStorage).toBeDefined()
     expect(context.settingsManager).toBeDefined()
+    expect(context.workspaceService).toBeDefined()
   })
 
   it('initializeApp returns same context on second call', async () => {

@@ -2,6 +2,7 @@ import { createFileSystemAdapter, isTauri } from './infrastructure/filesystem/fa
 import { TauriSecureStorage } from './infrastructure/secure-storage/tauri-secure-storage'
 import { WebSecureStorage } from './infrastructure/secure-storage/web-secure-storage'
 import { SettingsManager } from './core/settings/settings-manager.svelte'
+import { WorkspaceService } from './services/workspace-service'
 import type { FileSystemAdapter } from './infrastructure/filesystem/types'
 import type { SecureStorage } from './infrastructure/secure-storage/types'
 
@@ -9,6 +10,7 @@ export interface AppContext {
   fs: FileSystemAdapter
   secureStorage: SecureStorage
   settingsManager: SettingsManager
+  workspaceService: WorkspaceService
 }
 
 let appContext: AppContext | null = null
@@ -31,7 +33,11 @@ export async function initializeApp(): Promise<AppContext> {
   }
   await settingsManager.initialize(fs, secureStorage, appDataDir)
 
-  appContext = { fs, secureStorage, settingsManager }
+  // Step 4: Initialize WorkspaceService (P-U3-04)
+  const workspaceService = new WorkspaceService(fs, settingsManager)
+  await workspaceService.initialize()
+
+  appContext = { fs, secureStorage, settingsManager, workspaceService }
   return appContext
 }
 

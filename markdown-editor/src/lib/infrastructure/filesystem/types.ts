@@ -1,4 +1,12 @@
 import type { DirEntry, FileFilter } from '$lib/types/filesystem'
+import type { FileInfo, WatchEvent } from '$lib/types/file-manager'
+
+export type UnwatchFn = () => Promise<void>
+
+export interface WatchOptions {
+  recursive: boolean
+  debounceMs: number
+}
 
 export interface FileSystemAdapter {
   readFile(path: string): Promise<string>
@@ -12,6 +20,18 @@ export interface FileSystemAdapter {
 
   rename(oldPath: string, newPath: string): Promise<void>
   remove(path: string): Promise<void>
+  removeDir(path: string, options?: { recursive: boolean }): Promise<void>
+
+  copyFile(src: string, dest: string): Promise<void>
+
+  getFileInfo(path: string): Promise<FileInfo>
+  readFilePartial(path: string, offset: number, length: number): Promise<Uint8Array>
+
+  watch(
+    path: string,
+    callback: (event: WatchEvent) => void,
+    options?: WatchOptions,
+  ): Promise<UnwatchFn>
 
   openFolderDialog(): Promise<string | null>
   openFileDialog(filters?: FileFilter[]): Promise<string | null>

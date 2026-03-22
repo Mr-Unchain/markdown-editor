@@ -1,6 +1,9 @@
+import type { SessionState, RecentWorkspace, AutoSaveConfig } from './workspace'
+
 export interface AppSettings {
   lastWorkspacePath: string | null
-  recentWorkspaces: string[]
+  recentWorkspaces: RecentWorkspace[]
+  session: SessionState | null
   editor: EditorSettings
   plugins: PluginConfig
   platforms: PlatformConnectionConfig
@@ -10,6 +13,8 @@ export interface EditorSettings {
   fontSize: number
   theme: 'light' | 'dark'
   editorWidth: number
+  maxTabs: number
+  autoSave: AutoSaveConfig
 }
 
 export interface PluginConfig {

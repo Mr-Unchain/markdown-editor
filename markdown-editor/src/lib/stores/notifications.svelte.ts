@@ -18,10 +18,12 @@ export function notify(type: NotificationType, message: string, duration?: numbe
     notificationState.list.splice(0, notificationState.list.length - MAX_NOTIFICATIONS)
   }
 
-  // Auto-dismiss
-  setTimeout(() => {
-    dismissNotification(id)
-  }, actualDuration)
+  // Auto-dismiss (duration=0 means manual dismissal only)
+  if (actualDuration > 0) {
+    setTimeout(() => {
+      dismissNotification(id)
+    }, actualDuration)
+  }
 
   return id
 }

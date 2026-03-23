@@ -480,3 +480,101 @@ Q1:A（小規模〜100ファイル）, Q2:C（自動更新+衝突確認）, Q3:B
 **Context**: CONSTRUCTION - U3 Code Generation - Part 2, Steps 14-16 + self-review
 
 ---
+
+## Session Resumption
+**Timestamp**: 2026-03-23T00:00:00Z
+**User Input**: "ai-dlcを用いた開発作業を中断していたと思うので、再開してください。"
+**AI Response**: セッション再開。aidlc-state.md確認 — U3 File Management Code Generation完了（339テスト全パス、承認済み）。次ステージ: U4 Platform Integration Functional Design。前回成果物（unit-of-work.md, unit-of-work-story-map.md, application-design.md）を読み込み済み。
+**Context**: Session Continuity - Resume at U4 Platform Integration Functional Design
+
+---
+
+## CONSTRUCTION - U4 Platform Integration: Functional Design (プラン・質問作成)
+**Timestamp**: 2026-03-23T00:05:00Z
+**User Input**: "A"（中断箇所から続行を選択）
+**AI Response**: U4 Functional Designプランを作成。Step 1-7（ドメインエンティティ、PlatformAdapter/ZennAdapter、ImageManager、ExportService、PublishService、ビジネスルール、フロントエンドコンポーネント）。10個の質問を生成。
+**Context**: CONSTRUCTION - U4 Functional Design - Step 2-4
+
+---
+
+## CONSTRUCTION - U4 Platform Integration: Functional Design (質問回答)
+**Timestamp**: 2026-03-23T00:10:00Z
+**User Input**: "回答しました" — プランファイルに直接回答を記入:
+Q1:C（お任せ→GitHub連携方式推奨）, Q2:D（お任せ→Typora方式推奨）, Q3:D（お任せ→元ファイル名+タイムスタンプ推奨）, Q4:D（お任せ→用途別使い分け推奨）, Q5:D（お任せ→シンプル+プレビュー推奨）, Q6:D（お任せ→確認ダイアログ付き上書き推奨）, Q7:B（独立モーダルダイアログ）, Q8:C（リトライダイアログ表示）, Q9:D（ツールバー+スラッシュコマンド両方）, Q10:D（お任せ→frontmatter方式推奨）
+**AI Response**: 全10問の回答に矛盾・曖昧さなし。Functional Design成果物4件を生成: domain-entities.md（6エンティティ+PlatformCredentials型）, business-logic-model.md（5領域）, business-rules.md（19ルール）, frontend-components.md（7コンポーネント+4ストア）。セルフレビュー実施 — CRITICAL 3件（Zenn画像URL形式、ArticlePayload.images名不整合、ImageInsertResult不整合）、HIGH 7件（US-17スラッシュコマンド画像挿入、uploadForPlatformパラメータ、GitHub rate limit詳細化、409 SHAリトライ、Zenn画像ストレージ明確化、slug入力欠落、handleDrop async）、MEDIUM 8件を修正完了。
+**Context**: CONSTRUCTION - U4 Functional Design - Step 5-7
+
+---
+
+## CONSTRUCTION - U4 Platform Integration: Functional Design (承認)
+**Timestamp**: 2026-03-23T00:15:00Z
+**User Input**: "承認します"
+**AI Response**: U4 Functional Design承認を確認。NFR Requirementsステージへ進む。
+**Context**: CONSTRUCTION - U4 Functional Design - Step 8-9
+
+---
+
+## CONSTRUCTION - U4 Platform Integration: NFR Requirements (プラン・質問作成)
+**Timestamp**: 2026-03-23T00:20:00Z
+**User Input**: N/A（Functional Design承認後に自動遷移）
+**AI Response**: U4 NFR Requirementsプランを作成。Step 1-7（パフォーマンス、信頼性、セキュリティ、ユーザビリティ、保守性、Tech Stack、成果物生成）。7個の質問を生成。
+**Context**: CONSTRUCTION - U4 NFR Requirements - Step 2-4
+
+---
+
+## CONSTRUCTION - U4 Platform Integration: NFR Requirements (質問回答)
+**Timestamp**: 2026-03-23T00:25:00Z
+**User Input**: "回答しました" — プランファイルに直接回答を記入:
+Q1:D（時間制限なし、進捗表示あればOK）, Q2:D（お任せ→MVPでは不実装推奨）, Q3:C（お任せ→オフラインエクスポート動作推奨）, Q4:D（お任せ→DOMPurifyサニタイズ推奨）, Q5:C（お任せ→モック+契約テスト推奨）, Q6:D（お任せ→gray-matter推奨）, Q7:C（お任せ→軽量自前fetchクライアント推奨）
+**AI Response**: 全7問の回答に矛盾・曖昧さなし。NFR Requirements成果物2件を生成: nfr-requirements.md（21要件）, tech-stack-decisions.md（gray-matter+js-yaml 4.x+DOMPurify、自前GitHubApiClient）。セルフレビュー実施 — CRITICAL 2件（DOMPurifyテスト環境、gray-matter js-yaml 3.xセキュリティ）、HIGH 5件（許可タグ不整合、レート制限バジェット欠落、画像バジェット算術、カバレッジ閾値欠落、バンドルサイズNFR欠落）、MEDIUM 6件を修正完了。
+**Context**: CONSTRUCTION - U4 NFR Requirements - Step 5-7
+
+---
+
+## CONSTRUCTION - U4 Platform Integration: NFR Requirements (承認)
+**Timestamp**: 2026-03-23T00:30:00Z
+**User Input**: "承認します"
+**AI Response**: U4 NFR Requirements承認を確認。NFR Designステージへ進む。
+**Context**: CONSTRUCTION - U4 NFR Requirements - Step 8-9
+
+---
+
+## CONSTRUCTION - U4 Platform Integration: NFR Design (プラン・質問)
+**Timestamp**: 2026-03-23T00:35:00Z
+**User Input**: N/A（プラン生成は自動）
+**AI Response**: U4 NFR Designプランを作成（7ステップ: パフォーマンス/信頼性/セキュリティ/ユーザビリティ/保守性パターン + 論理コンポーネント + 成果物）。2個の質問を生成（キャンセル範囲、認証情報取得タイミング）。
+**Context**: CONSTRUCTION - U4 NFR Design - Plan + Questions
+
+---
+
+## CONSTRUCTION - U4 Platform Integration: Code Generation Plan (承認)
+**Timestamp**: 2026-03-23T01:20:00Z
+**User Input**: "承認します。"
+**AI Response**: U4 Code Generation Plan承認を確認。Part 2 Generation開始。
+**Context**: CONSTRUCTION - U4 Code Generation - Part 1 Approval
+
+---
+
+## CONSTRUCTION - U4 Platform Integration: Code Generation Plan
+**Timestamp**: 2026-03-23T01:10:00Z
+**User Input**: N/A（プラン生成は自動）
+**AI Response**: U4 Code Generation Planを作成。19ステップ（型定義→Infrastructure→Utility→Integration→Core→Service→Store→UI Components→App Integration→パッケージ追加→サマリー）。5 MVPストーリー（US-12/16/17/18/22）のカバレッジマトリックス付き。アプリケーションルートが`markdown-editor/markdown-editor/src/`であることを確認。既存リソース（notifications.svelte.ts, NotificationToast.svelte, app-init.ts, plugins/zenn/index.ts）との統合方針を明記。
+**Context**: CONSTRUCTION - U4 Code Generation - Part 1 Planning
+
+---
+
+## CONSTRUCTION - U4 Platform Integration: NFR Design (承認)
+**Timestamp**: 2026-03-23T01:00:00Z
+**User Input**: "承認します。適切にAgent teamsは使うようにしてくださいね。"
+**AI Response**: U4 NFR Design承認を確認。Code Generationステージへ進む。
+**Context**: CONSTRUCTION - U4 NFR Design - Step 8-9
+
+---
+
+## CONSTRUCTION - U4 Platform Integration: NFR Design (質問回答・成果物生成)
+**Timestamp**: 2026-03-23T00:40:00Z
+**User Input**: "回答しました" — Q1:C（お任せ→AbortControllerでいつでもキャンセル推奨）, Q2:C（お任せ→オンデマンド取得・操作後解放推奨）
+**AI Response**: 全2問の回答に矛盾・曖昧さなし。NFR Design成果物2件を生成: nfr-design-patterns.md（17パターン+P-U4-05キャンセラブル）, logical-components.md（13論理コンポーネント+NFRカバレッジマトリクス）。セルフレビュー実施 — CRITICAL 4件（循環依存PublishPipeline↔publishStore、uploadImage型不整合、ALLOWED_ATTR誤検出）、HIGH 6件（$stateファイル配置、Svelte 4イベント構文、adapter/client混同、起動バジェット不整合、DOMPurify環境ガード、PublishGuard未登録）、MEDIUM 4件、LOW 2件 → 15件修正完了（1件CRIT-04は誤検出）。tech-stack-decisions.mdのファイル配置にpublish-pipeline.ts/credential-manager.tsを追加。
+**Context**: CONSTRUCTION - U4 NFR Design - Step 1-7
+
+---

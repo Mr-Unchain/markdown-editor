@@ -41,6 +41,9 @@ export interface ZennCredentials {
   type: 'zenn'
   githubToken: string
   repository: string
+  repositoryOwner: string
+  repositoryName: string
+  branch: string
 }
 
 export interface NoteCredentials {

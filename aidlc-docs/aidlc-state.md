@@ -50,10 +50,10 @@
 - [x] U1: Foundation — Code Generation Complete (Svelte 5 runes移行完了、113テスト全パス)
 - [x] U2: Core Editor — Functional Design ✅ → NFR Requirements ✅ → NFR Design ✅ → Code Generation ✅
 - [x] U3: File Management — Functional Design ✅ → NFR Requirements ✅ → NFR Design ✅ → Code Generation ✅ (339テスト全パス)
-- [ ] U4: Platform Integration
+- [ ] U4: Platform Integration — Functional Design ✅ → NFR Requirements ✅ → NFR Design ✅
 
 ## Current Status
 - **Lifecycle Phase**: CONSTRUCTION
-- **Current Stage**: U3 File Management - Code Generation Complete
-- **Next Stage**: U4 Platform Integration - Functional Design
-- **Status**: U3 Code Generation完了（全16ステップ、339テスト全パス）。U4開始待ち。
+- **Current Stage**: U4 Platform Integration - NFR Design Complete
+- **Next Stage**: U4 Platform Integration - Code Generation
+- **Status**: U4 NFR Design完了（17パターン、13論理コンポーネント、全21NFRカバレッジ確認済み）。Code Generation開始。

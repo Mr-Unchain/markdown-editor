@@ -126,12 +126,34 @@ export const SLASH_COMMAND_ITEMS: SlashCommandItem[] = [
   {
     id: 'image',
     title: '画像',
-    description: '画像を挿入（U4で実装）',
+    description: 'ファイルから画像を挿入',
     icon: '🖼',
     aliases: ['img', 'picture', 'photo'],
     group: '挿入',
     action: (_editor, _range) => {
-      // U4で実装予定 — プレースホルダー
+      window.dispatchEvent(new CustomEvent('app:insert-image'))
+    },
+  },
+  {
+    id: 'export',
+    title: 'エクスポート',
+    description: 'Markdown/HTMLにエクスポート',
+    icon: '📤',
+    aliases: ['export', 'md', 'html'],
+    group: 'プラットフォーム',
+    action: (_editor, _range) => {
+      window.dispatchEvent(new CustomEvent('app:open-export-menu'))
+    },
+  },
+  {
+    id: 'publish',
+    title: '投稿',
+    description: 'プラットフォームに記事を投稿',
+    icon: '🚀',
+    aliases: ['publish', 'post', 'zenn'],
+    group: 'プラットフォーム',
+    action: (_editor, _range) => {
+      window.dispatchEvent(new CustomEvent('app:open-publish-dialog'))
     },
   },
 ]

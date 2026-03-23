@@ -32,9 +32,9 @@ describe('notifications store', () => {
     expect(notificationState.list[0]!.duration).toBe(3000)
   })
 
-  it('uses default duration for error type', () => {
+  it('uses default duration for error type (NFR-U4-21: manual dismiss)', () => {
     notify('error', 'Test')
-    expect(notificationState.list[0]!.duration).toBe(5000)
+    expect(notificationState.list[0]!.duration).toBe(0)
   })
 
   it('allows custom duration', () => {

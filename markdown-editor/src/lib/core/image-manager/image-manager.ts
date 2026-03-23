@@ -93,11 +93,11 @@ export class ImageManager {
     const dir = targetPath.substring(0, targetPath.lastIndexOf('/'))
     const dirExists = await this.fs.exists(dir)
     if (!dirExists) {
-      await this.fs.createDirectory(dir)
+      await this.fs.mkdir(dir)
     }
 
-    // Read blob as ArrayBuffer and write
-    const arrayBuffer = await blob.arrayBuffer()
+    // Read blob as ArrayBuffer and write (Response wrapper for jsdom compat)
+    const arrayBuffer = await new Response(blob).arrayBuffer()
     const uint8Array = new Uint8Array(arrayBuffer)
     await this.fs.writeBinaryFile(targetPath, uint8Array)
   }
@@ -145,7 +145,7 @@ export class ImageManager {
     const exists = await this.fs.exists(assetsDir)
     if (!exists) return []
 
-    const entries = await this.fs.readDirectory(assetsDir)
+    const entries = await this.fs.readDir(assetsDir)
     const images: LocalImageRef[] = []
 
     for (const entry of entries) {

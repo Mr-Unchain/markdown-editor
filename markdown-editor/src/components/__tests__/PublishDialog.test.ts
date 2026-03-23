@@ -1,6 +1,12 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, beforeAll } from 'vitest'
 import { render, screen } from '@testing-library/svelte'
 import PublishDialog from '../dialogs/PublishDialog.svelte'
+
+// jsdom does not implement HTMLDialogElement methods
+beforeAll(() => {
+  HTMLDialogElement.prototype.showModal = vi.fn()
+  HTMLDialogElement.prototype.close = vi.fn()
+})
 
 // Mock stores
 vi.mock('$lib/stores/publish-store.svelte', () => ({

@@ -128,6 +128,8 @@ export class SettingsManager {
 
   private async saveToFile(): Promise<void> {
     if (!this.fs || !this.settingsPath) return
+    const dir = this.settingsPath.substring(0, this.settingsPath.lastIndexOf('/'))
+    await this.fs.mkdir(dir)
     await this.fs.writeFile(this.settingsPath, JSON.stringify(this.current, null, 2))
   }
 

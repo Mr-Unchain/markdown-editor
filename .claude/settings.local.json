@@ -11,7 +11,26 @@
       "mcp__filesystem__list_directory",
       "Bash(pnpm view:*)",
       "Bash(ls:*)",
-      "Bash(npx svelte-check:*)"
+      "Bash(npx svelte-check:*)",
+      "Bash(for f:*)",
+      "Bash(do echo:*)",
+      "Read(//c/Users/ayust/AppData/Local/Temp/claude/C--Git-markdown-editor/851e54e4-aa50-40ad-b259-ff19e1e49446/tasks/**)",
+      "Bash(done)",
+      "Bash(node -e \":*)",
+      "Bash(start:*)",
+      "Bash(rustc --version)",
+      "Bash(cargo --version)",
+      "Bash(rustup --version)",
+      "Bash(export PATH=\"$HOME/.cargo/bin:$PATH\")",
+      "Bash(npx tauri:*)",
+      "Bash(pkill -f \"vite dev\")",
+      "Bash(netstat -ano)",
+      "Bash(taskkill:*)",
+      "Bash(pkill -f \"cargo\")",
+      "Bash(pkill -f \"vite\")",
+      "Bash(tasklist)",
+      "Bash(npm run:*)",
+      "Bash(git rm:*)"
     ]
   }
 }

@@ -118,8 +118,8 @@ U4 Platform Integrationの5 MVPストーリー（US-12, US-16, US-17, US-18, US-
 - [x] `package.json` — gray-matter ^4.x, js-yaml ^4.x, dompurify ^3.x, zod ^3.x 追加
 - [x] `vite.config.ts` — 確認済み: SvelteKit標準設定でdynamic import対応済み、変更不要
 
-## Step 19: コード生成サマリー
-- [ ] `aidlc-docs/construction/u4-platform-integration/code/code-generation-summary.md` — 生成ファイル一覧、ストーリーカバレッジ、テストカバレッジ
+## Step 19: コード生成サマリー ✅
+- [x] `aidlc-docs/construction/u4-platform-integration/code/code-generation-summary.md` — 生成ファイル一覧、ストーリーカバレッジ、テストカバレッジ
 
 ---
 

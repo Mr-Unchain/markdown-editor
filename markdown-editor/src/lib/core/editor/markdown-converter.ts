@@ -11,7 +11,9 @@ export interface ConversionResult {
  */
 export function getMarkdownFromEditor(editor: Editor): ConversionResult {
   try {
-    const markdown = editor.storage.markdown?.getMarkdown?.()
+    // Tiptap v3: editor.getMarkdown() is added by @tiptap/markdown extension
+    const getMarkdown = (editor as unknown as { getMarkdown?: () => string }).getMarkdown
+    const markdown = getMarkdown ? getMarkdown.call(editor) : editor.storage.markdown?.getMarkdown?.()
     if (markdown == null || (typeof markdown === 'string' && markdown.length === 0 && !editor.isEmpty)) {
       // ドキュメントが空でないのにMarkdownが空 → 変換異常
       return {
@@ -19,7 +21,7 @@ export function getMarkdownFromEditor(editor: Editor): ConversionResult {
         error: 'Markdown変換に失敗しました。ドキュメントは保全されています。',
       }
     }
-    return { ok: true, data: markdown }
+    return { ok: true, data: markdown ?? '' }
   } catch (e) {
     return {
       ok: false,

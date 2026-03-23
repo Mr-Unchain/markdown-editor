@@ -40,20 +40,20 @@
 - [ ] NFR Requirements - EXECUTE (per-unit)
 - [ ] NFR Design - EXECUTE (per-unit)
 - [ ] Infrastructure Design - SKIP
-- [ ] Code Generation - EXECUTE (per-unit)
-- [ ] Build and Test - EXECUTE
+- [x] Code Generation - COMPLETE (U1-U4)
+- [x] Build and Test - COMPLETE
 
 ### OPERATIONS PHASE
-- [ ] Operations - PLACEHOLDER
+- [ ] Operations - PLACEHOLDER (future expansion)
 
 ## Unit Progress
 - [x] U1: Foundation — Code Generation Complete (Svelte 5 runes移行完了、113テスト全パス)
 - [x] U2: Core Editor — Functional Design ✅ → NFR Requirements ✅ → NFR Design ✅ → Code Generation ✅
 - [x] U3: File Management — Functional Design ✅ → NFR Requirements ✅ → NFR Design ✅ → Code Generation ✅ (339テスト全パス)
-- [ ] U4: Platform Integration — Functional Design ✅ → NFR Requirements ✅ → NFR Design ✅
+- [x] U4: Platform Integration — Functional Design ✅ → NFR Requirements ✅ → NFR Design ✅ → Code Generation ✅
 
 ## Current Status
-- **Lifecycle Phase**: CONSTRUCTION
-- **Current Stage**: U4 Platform Integration - NFR Design Complete
-- **Next Stage**: U4 Platform Integration - Code Generation
-- **Status**: U4 NFR Design完了（17パターン、13論理コンポーネント、全21NFRカバレッジ確認済み）。Code Generation開始。
+- **Lifecycle Phase**: CONSTRUCTION - COMPLETE
+- **Current Stage**: All stages complete
+- **Next Stage**: Operations (PLACEHOLDER — future expansion)
+- **Status**: INCEPTION全6ステージ + CONSTRUCTION全工程完了。テスト実行済み: **65ファイル、472テスト全パス**。

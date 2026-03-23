@@ -1,1 +1,10 @@
 node_modules/
+
+# SvelteKit generated
+markdown-editor/.svelte-kit/
+
+# Tauri build artifacts and generated files
+markdown-editor/src-tauri/target/
+markdown-editor/src-tauri/gen/
+markdown-editor/src-tauri/icons/
+markdown-editor/src-tauri/capabilities/

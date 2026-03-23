@@ -6,9 +6,9 @@ import type { PlatformAdapter, LocalImageRef } from '$lib/types/platform'
 function createMockFs(): FileSystemAdapter {
   return {
     exists: vi.fn().mockResolvedValue(true),
-    createDirectory: vi.fn().mockResolvedValue(undefined),
+    mkdir: vi.fn().mockResolvedValue(undefined),
     writeBinaryFile: vi.fn().mockResolvedValue(undefined),
-    readDirectory: vi.fn().mockResolvedValue([]),
+    readDir: vi.fn().mockResolvedValue([]),
     readFile: vi.fn().mockResolvedValue(''),
     writeFile: vi.fn().mockResolvedValue(undefined),
   } as unknown as FileSystemAdapter
@@ -77,7 +77,7 @@ describe('ImageManager', () => {
       const file = createMockFile('test.png', 'image/png', 1024)
       await manager.insertFromFile(file, '/docs/article.md')
 
-      expect(mockFs.createDirectory).toHaveBeenCalled()
+      expect(mockFs.mkdir).toHaveBeenCalled()
     })
   })
 
@@ -148,7 +148,7 @@ describe('ImageManager', () => {
 
   describe('collectLocalImages', () => {
     it('returns images from assets directory', async () => {
-      ;(mockFs.readDirectory as ReturnType<typeof vi.fn>).mockResolvedValue([
+      ;(mockFs.readDir as ReturnType<typeof vi.fn>).mockResolvedValue([
         { name: 'img1.png', path: '/docs/article.assets/img1.png', isDirectory: false },
         { name: 'img2.jpg', path: '/docs/article.assets/img2.jpg', isDirectory: false },
         { name: 'subfolder', path: '/docs/article.assets/subfolder', isDirectory: true },

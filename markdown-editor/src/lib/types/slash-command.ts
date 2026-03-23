@@ -14,7 +14,7 @@ export interface SlashCommandItem {
   /** 検索用エイリアス */
   aliases: string[]
   /** グループ名（カテゴリ） */
-  group: 'テキスト' | 'リスト' | 'メディア' | '挿入'
+  group: 'テキスト' | 'リスト' | 'メディア' | '挿入' | 'プラットフォーム'
   /** 実行関数 */
   action: (editor: Editor, range: Range) => void
 }

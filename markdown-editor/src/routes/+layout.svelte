@@ -14,7 +14,7 @@
   import { tabsState, getActiveTab } from '$lib/stores/tabs.svelte'
   import { getAppContext } from '$lib/app-init'
 
-  let { children } = $props()
+  let { children, data } = $props()
 
   function handleKeydown(event: KeyboardEvent) {
     // Ctrl+\ — サイドバー切替
@@ -71,8 +71,28 @@
     ctx.workspaceService.fileManager.reorderTabs(fromIndex, toIndex)
   }
 
-  function handleOpenWorkspace() {
-    // Tauri dialog APIで実装（将来のU4で完全統合）
+  async function handleOpenWorkspace() {
+    const ctx = getAppContext()
+    if (!ctx) return
+    const path = await ctx.fs.openFolderDialog()
+    if (!path) return
+    await ctx.workspaceService.openWorkspace(path)
+  }
+
+  async function handleSelectFile(node: import('$lib/types/workspace').FileTreeNode) {
+    const ctx = getAppContext()
+    if (!ctx || node.isDirectory) return
+    await ctx.workspaceService.fileManager.openTab(node.path)
+  }
+
+  async function handleToggleFolder(node: import('$lib/types/workspace').FileTreeNode) {
+    const ctx = getAppContext()
+    if (!ctx || !node.isDirectory) return
+    if (node.isExpanded) {
+      ctx.workspaceService.fileManager.collapseFolder(node.path)
+    } else {
+      await ctx.workspaceService.fileManager.expandFolder(node.path)
+    }
   }
 
   function handlePlainTextUpdate(content: string) {
@@ -96,6 +116,13 @@
 
 <svelte:window onkeydown={handleKeydown} />
 
+{#if data.error}
+<div class="init-error">
+  <h1>初期化エラー</h1>
+  <p>{data.error}</p>
+  <button onclick={() => location.reload()}>再読み込み</button>
+</div>
+{:else}
 <div
   class="app-shell"
   data-theme={appSettings.editor.theme}
@@ -104,7 +131,11 @@
   <Toolbar />
 
   <div class="main-area">
-    <Sidebar />
+    <Sidebar
+      onOpenWorkspace={handleOpenWorkspace}
+      onSelectFile={handleSelectFile}
+      onToggleFolder={handleToggleFolder}
+    />
 
     <main
       class="editor-area"
@@ -142,8 +173,42 @@
   <NotificationToast />
   <ConfirmDialog />
 </div>
+{/if}
 
 <style>
+  .init-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: #333;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .init-error h1 {
+    font-size: 1.5rem;
+    color: #e53e3e;
+    margin-bottom: 1rem;
+  }
+
+  .init-error p {
+    color: #666;
+    max-width: 600px;
+    word-break: break-word;
+    margin-bottom: 1.5rem;
+  }
+
+  .init-error button {
+    padding: 0.5rem 1.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fff;
+    cursor: pointer;
+  }
+
   .app-shell {
     display: flex;
     flex-direction: column;

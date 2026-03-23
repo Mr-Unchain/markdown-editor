@@ -6,11 +6,10 @@
   "build": {
     "frontendDist": "../build",
     "devUrl": "http://localhost:1420",
-    "beforeDevCommand": "pnpm dev",
-    "beforeBuildCommand": "pnpm build"
+    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "npm run build"
   },
   "app": {
-    "title": "Markdown Editor",
     "windows": [
       {
         "title": "Markdown Editor",
@@ -25,17 +24,5 @@
       "csp": null
     }
   },
-  "plugins": {
-    "fs": {
-      "scope": {
-        "allow": ["**"],
-        "deny": []
-      }
-    },
-    "dialog": {
-      "open": true,
-      "save": true
-    },
-    "stronghold": {}
-  }
+  "plugins": {}
 }

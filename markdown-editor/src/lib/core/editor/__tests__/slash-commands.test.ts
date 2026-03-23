@@ -2,8 +2,8 @@ import { describe, it, expect } from 'vitest'
 import { SLASH_COMMAND_ITEMS, filterSlashCommands } from '../slash-commands'
 
 describe('SLASH_COMMAND_ITEMS', () => {
-  it('12個のコマンドが定義されている', () => {
-    expect(SLASH_COMMAND_ITEMS).toHaveLength(12)
+  it('14個のコマンドが定義されている', () => {
+    expect(SLASH_COMMAND_ITEMS).toHaveLength(14)
   })
 
   it('全アイテムにid, title, group, aliasesが存在する', () => {

@@ -30,7 +30,31 @@
       "Bash(pkill -f \"vite\")",
       "Bash(tasklist)",
       "Bash(npm run:*)",
-      "Bash(git rm:*)"
+      "Bash(git rm:*)",
+      "Bash(cmd.exe /c \"rustc --version\")",
+      "Bash(cmd.exe /c \"cargo --version\")",
+      "Bash(cmd.exe /c \"node --version\")",
+      "Bash(cmd.exe /c \"npm --version\")",
+      "Bash(cmd.exe /c \"pnpm --version\")",
+      "Bash(test -f \"$HOME/.cargo/bin/rustc\")",
+      "Bash(\"$HOME/.cargo/bin/rustc\" --version)",
+      "Read(//c/Users/ayust/.cargo/bin/**)",
+      "Bash(/c/Users/ayust/.cargo/bin/rustc.exe --version)",
+      "Bash(npm --version)",
+      "Bash(pnpm --version)",
+      "Bash(export PATH=\"/c/Users/ayust/.cargo/bin:$PATH\")",
+      "Bash(export PATH=\"/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64:/c/Users/ayust/.cargo/bin:$PATH\")",
+      "Bash(pnpm tauri:*)",
+      "Bash(export LIB=\"C:/Program Files \\(x86\\)/Windows Kits/10/Lib/10.0.22621.0/um/x64;C:/Program Files \\(x86\\)/Windows Kits/10/Lib/10.0.22621.0/ucrt/x64;C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x64\")",
+      "Bash(export INCLUDE=\"C:/Program Files \\(x86\\)/Windows Kits/10/Include/10.0.22621.0/um;C:/Program Files \\(x86\\)/Windows Kits/10/Include/10.0.22621.0/ucrt;C:/Program Files \\(x86\\)/Windows Kits/10/Include/10.0.22621.0/shared;C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include\")",
+      "Bash(export VCINSTALLDIR=\"C:/Program Files/Microsoft Visual Studio/2022/Community/VC/\")",
+      "Bash(export VCToolsVersion=\"14.44.35207\")",
+      "Bash(export WindowsSdkDir=\"C:/Program Files \\(x86\\)/Windows Kits/10/\")",
+      "Bash(export WindowsSDKVersion=\"10.0.22621.0\\\\\")",
+      "Bash(find \"C:/Program Files \\(x86\\)/Windows Kits/10/Include/10.0.22621.0\" -name \"excpt.h\")",
+      "Bash(rm -rf src-tauri/target/debug/build)",
+      "Bash(export LIB=\"/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/lib/x64;/c/Program Files \\(x86\\)/Windows Kits/10/Lib/10.0.22621.0/um/x64;/c/Program Files \\(x86\\)/Windows Kits/10/Lib/10.0.22621.0/ucrt/x64\")",
+      "Bash(export INCLUDE=\"/c/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include;/c/Program Files \\(x86\\)/Windows Kits/10/Include/10.0.22621.0/ucrt;/c/Program Files \\(x86\\)/Windows Kits/10/Include/10.0.22621.0/um;/c/Program Files \\(x86\\)/Windows Kits/10/Include/10.0.22621.0/shared\")"
     ]
   }
 }

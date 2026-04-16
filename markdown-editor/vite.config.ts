@@ -22,6 +22,15 @@ export default defineConfig({
         inline: [/svelte/],
       },
     },
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'html'],
+      thresholds: {
+        lines: 80,
+        branches: 70,
+        functions: 80,
+      },
+    },
   },
   resolve: {
     conditions: ['browser'],

@@ -6,6 +6,7 @@ import { ImageManager } from '$lib/core/image-manager/image-manager'
 import type { SettingsManager } from '$lib/core/settings/settings-manager.svelte'
 import type { FileSystemAdapter } from '$lib/infrastructure/filesystem/types'
 import type { PublishProgress, ZennCredentials } from '$lib/types/platform'
+import { PlatformAdapterNotRegisteredError } from '$lib/types/platform'
 
 // Mock publish pipeline to avoid deep dependency chain
 vi.mock('../publish-pipeline', () => ({
@@ -48,6 +49,22 @@ describe('PublishService', () => {
 
   beforeEach(() => {
     const registry = new PlatformAdapterRegistry()
+    registry.register({
+      platformId: 'zenn',
+      platformName: 'Zenn',
+      capabilities: ['publish', 'update'],
+      create: () => ({
+        platformId: 'zenn',
+        platformName: 'Zenn',
+        supportsDirectPublish: false,
+        capabilities: ['publish', 'update'],
+        testConnection: vi.fn().mockResolvedValue({ success: true }),
+        publishDraft: vi.fn().mockResolvedValue({ success: true, platformId: 'zenn' }),
+        publishArticle: vi.fn().mockResolvedValue({ success: true, platformId: 'zenn' }),
+        updateArticle: vi.fn().mockResolvedValue({ success: true, platformId: 'zenn' }),
+        uploadImage: vi.fn().mockResolvedValue({ localPath: '', remoteUrl: '', success: true }),
+      }),
+    })
     const exportService = new ExportService()
     const fs = createMockFs()
     const imageManager = new ImageManager(fs)
@@ -66,6 +83,16 @@ describe('PublishService', () => {
       )
 
       expect(result.success).toBe(true)
+    })
+
+    it('throws typed error for unregistered platform', async () => {
+      await expect(
+        service.publish(
+          'unknown',
+          { title: 'Test', body: '# Hello', bodyFormat: 'markdown', images: [] },
+          () => {},
+        ),
+      ).rejects.toBeInstanceOf(PlatformAdapterNotRegisteredError)
     })
 
     it('prevents concurrent publishes', async () => {

@@ -13,6 +13,27 @@ export type PublishStep =
   | 'update-frontmatter'
   | 'complete'
 
+/** Platform feature capability */
+export type PlatformCapability = 'publish' | 'update' | 'export-only'
+
+/** Platform metadata used for UI and adapter selection */
+export interface PlatformProfile {
+  platformId: string
+  platformName: string
+  capabilities: readonly PlatformCapability[]
+}
+
+export const PLATFORM_PROFILES: readonly PlatformProfile[] = [
+  { platformId: 'zenn', platformName: 'Zenn', capabilities: ['publish', 'update'] },
+  { platformId: 'note', platformName: 'note', capabilities: ['export-only'] },
+  { platformId: 'microcms', platformName: 'microCMS', capabilities: ['export-only'] },
+  { platformId: 'contentful', platformName: 'Contentful', capabilities: ['export-only'] },
+]
+
+export function getPlatformProfile(platformId: string): PlatformProfile | undefined {
+  return PLATFORM_PROFILES.find((profile) => profile.platformId === platformId)
+}
+
 /** Image upload progress within a pipeline step */
 export interface ImageProgress {
   total: number
@@ -106,12 +127,18 @@ export interface PlatformAdapter {
   readonly platformId: string
   readonly platformName: string
   readonly supportsDirectPublish: boolean
+  readonly capabilities: readonly PlatformCapability[]
 
   testConnection(): Promise<ConnectionTestResult>
   publishDraft(article: ArticlePayload, signal?: AbortSignal): Promise<PublishResult>
   publishArticle(article: ArticlePayload, signal?: AbortSignal): Promise<PublishResult>
   updateArticle(id: string, article: ArticlePayload, signal?: AbortSignal): Promise<PublishResult>
   uploadImage(image: LocalImageRef, signal?: AbortSignal): Promise<ImageUploadResult>
+}
+
+/** Adapter factory stored in registry */
+export interface PlatformAdapterFactory extends PlatformProfile {
+  create(credentials: unknown): PlatformAdapter
 }
 
 /** GitHub API response types */
@@ -186,6 +213,14 @@ export class SecurityError extends Error {
   constructor(message: string) {
     super(message)
     this.name = 'SecurityError'
+  }
+}
+
+/** Error for unresolved platform adapter registrations */
+export class PlatformAdapterNotRegisteredError extends Error {
+  constructor(public readonly platformId: string) {
+    super(`プラットフォームアダプターが未登録です: ${platformId}`)
+    this.name = 'PlatformAdapterNotRegisteredError'
   }
 }
 

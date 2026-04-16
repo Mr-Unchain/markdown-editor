@@ -1,6 +1,6 @@
 <script lang="ts">
   import { getPublishProgress, startPublish, cancelPublish, isPublishing } from '$lib/stores/publish-store.svelte'
-  import { getConnections, hasCredentials } from '$lib/stores/platform-store.svelte'
+  import { getPublishableConnections, hasCredentials } from '$lib/stores/platform-store.svelte'
   import { getIsOnline } from '$lib/utils/network-status.svelte'
   import { formatErrorMessage } from '$lib/utils/error-messages'
   import { notify } from '$lib/stores/notifications.svelte'
@@ -24,11 +24,13 @@
   let showAdvanced = $state(false)
 
   let isValid = $derived(title.trim().length > 0)
+  let publishableConnections = $derived(getPublishableConnections())
   let canPublish = $derived(
     isValid &&
     !isPublishing() &&
     getIsOnline() &&
-    hasCredentials(selectedPlatform)
+    hasCredentials(selectedPlatform) &&
+    publishableConnections.length > 0
   )
 
   $effect(() => {
@@ -102,7 +104,7 @@
       <div class="form-group">
         <label for="publish-platform">プラットフォーム</label>
         <select id="publish-platform" bind:value={selectedPlatform} data-testid="publish-platform-select">
-          {#each getConnections() as conn}
+          {#each publishableConnections as conn}
             <option value={conn.platformId}>{conn.displayName}</option>
           {/each}
         </select>
@@ -158,6 +160,10 @@
 
       {#if !hasCredentials(selectedPlatform)}
         <p class="warning" role="alert">認証情報が設定されていません。設定画面でトークンを登録してください。</p>
+      {/if}
+
+      {#if publishableConnections.length === 0}
+        <p class="warning" role="alert">現在、投稿可能なプラットフォームがありません。</p>
       {/if}
 
       <div role="group" aria-label="アクション" class="actions">

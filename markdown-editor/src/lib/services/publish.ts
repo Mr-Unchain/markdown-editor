@@ -11,9 +11,7 @@ import type { FileSystemAdapter } from '$lib/infrastructure/filesystem/types'
 import { PublishPipeline } from './publish-pipeline'
 import { CredentialManager } from './credential-manager'
 import type { SettingsManager } from '$lib/core/settings/settings-manager.svelte'
-import { ZennAdapter } from '$lib/integration/platform/zenn/zenn-adapter'
-import { GitHubApiClientImpl } from '$lib/integration/platform/github-api-client'
-import type { ZennCredentials } from '$lib/types/settings'
+import { PlatformAdapterNotRegisteredError } from '$lib/types/platform'
 
 /**
  * Publish Guard (LC-U4-13, R-U4-04)
@@ -72,7 +70,7 @@ export class PublishService {
     return this.guard.withGuard(async () => {
       // On-demand credential retrieval
       return this.credentialManager.withCredentials(platformId, async (creds) => {
-        const adapter = this.createAdapter(platformId, creds)
+        const adapter = this.resolveAdapter(platformId, creds)
         return this.pipeline.execute(payload, adapter, onProgress, filePath)
       })
     })
@@ -97,7 +95,7 @@ export class PublishService {
    */
   async testConnection(platformId: string) {
     return this.credentialManager.withCredentials(platformId, async (creds) => {
-      const adapter = this.createAdapter(platformId, creds)
+      const adapter = this.resolveAdapter(platformId, creds)
       return adapter.testConnection()
     })
   }
@@ -112,20 +110,11 @@ export class PublishService {
   /**
    * Create a platform adapter with credentials.
    */
-  private createAdapter(platformId: string, credentials: unknown): PlatformAdapter {
-    switch (platformId) {
-      case 'zenn': {
-        const creds = credentials as ZennCredentials
-        const client = new GitHubApiClientImpl(
-          creds.githubToken,
-          creds.repositoryOwner,
-          creds.repositoryName,
-          creds.branch,
-        )
-        return new ZennAdapter(client)
-      }
-      default:
-        throw new Error(`未対応のプラットフォーム: ${platformId}`)
+  private resolveAdapter(platformId: string, credentials: unknown): PlatformAdapter {
+    const adapterFactory = this.registry.get(platformId)
+    if (!adapterFactory) {
+      throw new PlatformAdapterNotRegisteredError(platformId)
     }
+    return adapterFactory.create(credentials)
   }
 }

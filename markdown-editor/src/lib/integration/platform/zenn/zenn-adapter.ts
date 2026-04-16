@@ -25,6 +25,7 @@ export class ZennAdapter implements PlatformAdapter {
   readonly platformId = 'zenn'
   readonly platformName = 'Zenn'
   readonly supportsDirectPublish = false
+  readonly capabilities = ['publish', 'update'] as const
 
   constructor(private readonly client: GitHubApiClient) {}
 

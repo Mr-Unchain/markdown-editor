@@ -2,6 +2,15 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { CredentialManager } from '../credential-manager'
 import type { SettingsManager } from '$lib/core/settings/settings-manager.svelte'
 import type { ZennCredentials } from '$lib/types/settings'
+import { SecureStorageRecoveryError } from '$lib/infrastructure/secure-storage/tauri-secure-storage'
+
+const { notifyMock } = vi.hoisted(() => ({
+  notifyMock: vi.fn(),
+}))
+
+vi.mock('$lib/stores/notifications.svelte', () => ({
+  notify: notifyMock,
+}))
 
 function createMockSettingsManager(credentials: Record<string, string | null> = {}) {
   return {
@@ -11,6 +20,10 @@ function createMockSettingsManager(credentials: Record<string, string | null> = 
 
 describe('CredentialManager', () => {
   let manager: CredentialManager
+
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
 
   describe('withCredentials', () => {
     it('provides parsed credentials to callback', async () => {
@@ -40,6 +53,23 @@ describe('CredentialManager', () => {
       await expect(
         manager.withCredentials('zenn', async () => 'noop'),
       ).rejects.toThrow('認証情報が設定されていません')
+    })
+
+    it('notifies user when secure storage requires re-authentication', async () => {
+      const sm = {
+        getPlatformCredentials: vi.fn(async () => {
+          throw new SecureStorageRecoveryError()
+        }),
+      } as unknown as SettingsManager
+      manager = new CredentialManager(sm)
+
+      await expect(manager.withCredentials('zenn', async () => 'noop')).rejects.toBeInstanceOf(
+        SecureStorageRecoveryError,
+      )
+      expect(notifyMock).toHaveBeenCalledWith(
+        'error',
+        '認証情報ストアの再認証が必要です。設定画面から再登録してください。',
+      )
     })
 
     it('throws if credentials JSON is invalid', async () => {

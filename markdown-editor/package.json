@@ -67,5 +67,10 @@
     "vite": "^5.0.0",
     "vitest": "^2.0.0",
     "zod": "^3.0.0"
-  }
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "packageManager": "pnpm@9"
 }

@@ -1,5 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 
+const { notifyMock } = vi.hoisted(() => ({
+  notifyMock: vi.fn(),
+}))
+
 const mockStore = {
   get: vi.fn(),
   insert: vi.fn(),
@@ -10,23 +14,40 @@ const mockClient = {
   getStore: vi.fn().mockReturnValue(mockStore),
 }
 
-const mockStronghold = {
+const mockPrimaryStronghold = {
   loadClient: vi.fn().mockResolvedValue(mockClient),
   createClient: vi.fn().mockResolvedValue(mockClient),
   save: vi.fn().mockResolvedValue(undefined),
 }
 
+const mockLegacyStronghold = {
+  loadClient: vi.fn().mockResolvedValue(mockClient),
+  createClient: vi.fn().mockResolvedValue(mockClient),
+  save: vi.fn().mockResolvedValue(undefined),
+}
+
+const mockInvoke = vi.fn().mockResolvedValue({ password: 'derived-password' })
+const mockStrongholdLoad = vi.fn().mockResolvedValue(mockPrimaryStronghold)
+
+vi.mock('$lib/stores/notifications.svelte', () => ({
+  notify: notifyMock,
+}))
+
 vi.mock('@tauri-apps/api/path', () => ({
   appDataDir: vi.fn().mockResolvedValue('/app-data'),
 }))
 
+vi.mock('@tauri-apps/api/core', () => ({
+  invoke: mockInvoke,
+}))
+
 vi.mock('@tauri-apps/plugin-stronghold', () => ({
   Stronghold: {
-    load: vi.fn().mockResolvedValue(mockStronghold),
+    load: mockStrongholdLoad,
   },
 }))
 
-import { TauriSecureStorage } from '../tauri-secure-storage'
+import { SecureStorageRecoveryError, TauriSecureStorage } from '../tauri-secure-storage'
 
 describe('TauriSecureStorage', () => {
   let storage: TauriSecureStorage
@@ -35,7 +56,20 @@ describe('TauriSecureStorage', () => {
     storage = new TauriSecureStorage()
     vi.clearAllMocks()
     mockClient.getStore.mockReturnValue(mockStore)
-    mockStronghold.loadClient.mockResolvedValue(mockClient)
+    mockPrimaryStronghold.loadClient.mockResolvedValue(mockClient)
+    mockPrimaryStronghold.createClient.mockResolvedValue(mockClient)
+    mockStrongholdLoad.mockResolvedValue(mockPrimaryStronghold)
+    mockInvoke.mockResolvedValue({ password: 'derived-password' })
+  })
+
+  it('loads stronghold with derived password and not fixed value', async () => {
+    mockStore.get.mockResolvedValue(null)
+
+    await storage.get('init-key')
+
+    expect(mockInvoke).toHaveBeenCalledWith('get_or_create_vault_password')
+    expect(mockStrongholdLoad).toHaveBeenCalledWith('/app-data/vault.v2.hold', 'derived-password')
+    expect(mockStrongholdLoad).not.toHaveBeenCalledWith('/app-data/vault.v2.hold', 'markdown-editor-vault')
   })
 
   it('get returns decoded string value', async () => {
@@ -45,49 +79,61 @@ describe('TauriSecureStorage', () => {
     expect(result).toBe('secret-token')
   })
 
-  it('get returns null when key not found', async () => {
-    mockStore.get.mockResolvedValue(null)
-    const result = await storage.get('missing-key')
-    expect(result).toBeNull()
-  })
-
   it('set encodes and stores value', async () => {
     await storage.set('api-key', 'my-secret')
     expect(mockStore.insert).toHaveBeenCalledOnce()
-    expect(mockStronghold.save).toHaveBeenCalledOnce()
+    expect(mockPrimaryStronghold.save).toHaveBeenCalledOnce()
   })
 
-  it('remove deletes key and saves', async () => {
-    // First initialize by calling get
-    mockStore.get.mockResolvedValue(null)
-    await storage.get('init')
+  it('migrates data from legacy vault when primary load fails', async () => {
+    const migratedStore = {
+      get: vi.fn(async (key: string) => {
+        if (key === 'platform:zenn') {
+          return Array.from(new TextEncoder().encode('legacy-token'))
+        }
+        return null
+      }),
+      insert: vi.fn(),
+      remove: vi.fn(),
+    }
 
-    await storage.remove('api-key')
-    expect(mockStore.remove).toHaveBeenCalledWith('api-key')
+    const legacyClient = {
+      getStore: vi.fn(() => migratedStore),
+    }
+
+    const primaryClient = {
+      getStore: vi.fn(() => migratedStore),
+    }
+
+    const migratedStronghold = {
+      loadClient: vi.fn().mockResolvedValue(primaryClient),
+      createClient: vi.fn().mockResolvedValue(primaryClient),
+      save: vi.fn().mockResolvedValue(undefined),
+    }
+
+    mockLegacyStronghold.loadClient.mockResolvedValue(legacyClient)
+
+    mockStrongholdLoad
+      .mockRejectedValueOnce(new Error('new vault open failed'))
+      .mockResolvedValueOnce(mockLegacyStronghold)
+      .mockResolvedValueOnce(migratedStronghold)
+      .mockResolvedValueOnce(migratedStronghold)
+
+    await storage.get('platform:zenn')
+
+    expect(mockStrongholdLoad).toHaveBeenNthCalledWith(1, '/app-data/vault.v2.hold', 'derived-password')
+    expect(mockStrongholdLoad).toHaveBeenNthCalledWith(2, '/app-data/vault.hold', 'markdown-editor-vault')
+    expect(migratedStore.insert).toHaveBeenCalledWith('platform:zenn', expect.any(Array))
+    expect(migratedStronghold.save).toHaveBeenCalled()
+    expect(notifyMock).toHaveBeenCalledWith('info', '認証情報ストレージを新方式へ移行しました。')
   })
 
-  it('has returns true when key exists', async () => {
-    const encoded = Array.from(new TextEncoder().encode('value'))
-    mockStore.get.mockResolvedValue(encoded)
-    const result = await storage.has('api-key')
-    expect(result).toBe(true)
-  })
+  it('throws recovery error and notifies when both primary and legacy fail', async () => {
+    mockStrongholdLoad
+      .mockRejectedValueOnce(new Error('new vault failed'))
+      .mockRejectedValueOnce(new Error('legacy vault failed'))
 
-  it('has returns false when key does not exist', async () => {
-    mockStore.get.mockResolvedValue(null)
-    const result = await storage.has('missing')
-    expect(result).toBe(false)
-  })
-
-  it('creates client when loadClient fails', async () => {
-    mockStronghold.loadClient.mockRejectedValue(new Error('not found'))
-    mockStronghold.createClient.mockResolvedValue(mockClient)
-
-    const encoded = Array.from(new TextEncoder().encode('value'))
-    mockStore.get.mockResolvedValue(encoded)
-
-    const result = await storage.get('key')
-    expect(result).toBe('value')
-    expect(mockStronghold.createClient).toHaveBeenCalledWith('credentials')
+    await expect(storage.get('api-key')).rejects.toBeInstanceOf(SecureStorageRecoveryError)
+    expect(notifyMock).toHaveBeenCalledWith('error', '認証情報ストレージを復旧できませんでした。再認証が必要です。')
   })
 })

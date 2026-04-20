@@ -1,4 +1,5 @@
 import type { PlatformConnection } from '$lib/types/settings'
+import { getPlatformProfile } from '$lib/types/platform'
 import type { ConnectionTestResult } from '$lib/types/platform'
 import type { SettingsManager } from '$lib/core/settings/settings-manager.svelte'
 
@@ -18,6 +19,14 @@ export function initPlatformStore(sm: SettingsManager): void {
 /** Get all connections (reactive) */
 export function getConnections(): PlatformConnectionState[] {
   return connections
+}
+
+/** Get connections that support publish workflow */
+export function getPublishableConnections(): PlatformConnectionState[] {
+  return connections.filter((conn) => {
+    const profile = getPlatformProfile(conn.platformId)
+    return profile?.capabilities.includes('publish') ?? false
+  })
 }
 
 /** Get connection by platform ID */

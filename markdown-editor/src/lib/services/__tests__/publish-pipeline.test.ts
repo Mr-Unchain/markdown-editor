@@ -30,6 +30,8 @@ function createMockAdapter(): PlatformAdapter {
     platformId: 'zenn',
     platformName: 'Zenn',
     supportsDirectPublish: false,
+    capabilities: ['publish', 'update'],
+    capabilities: ['publish', 'update'],
     testConnection: vi.fn().mockResolvedValue({ success: true }),
     publishDraft: vi.fn().mockResolvedValue({
       success: true,

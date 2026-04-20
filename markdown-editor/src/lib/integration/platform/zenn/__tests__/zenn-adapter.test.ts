@@ -31,6 +31,7 @@ describe('ZennAdapter', () => {
       expect(adapter.platformId).toBe('zenn')
       expect(adapter.platformName).toBe('Zenn')
       expect(adapter.supportsDirectPublish).toBe(false)
+      expect(adapter.capabilities).toEqual(['publish', 'update'])
     })
   })
 

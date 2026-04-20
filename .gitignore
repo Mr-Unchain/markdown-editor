@@ -8,3 +8,6 @@ markdown-editor/src-tauri/target/
 markdown-editor/src-tauri/gen/
 markdown-editor/src-tauri/icons/
 markdown-editor/src-tauri/capabilities/
+
+# Frontend build output
+markdown-editor/build/

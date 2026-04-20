@@ -7,12 +7,16 @@ import { PlatformAdapterRegistry } from './integration/platform/platform-adapter
 import { ExportService } from './integration/export/export-service'
 import { ImageManager } from './core/image-manager/image-manager'
 import { PublishService } from './services/publish'
+import { ZennAdapter } from './integration/platform/zenn/zenn-adapter'
+import { ExportOnlyAdapter } from './integration/platform/export-only-adapter'
+import { GitHubApiClientImpl } from './integration/platform/github-api-client'
 import { initPlatformStore, loadConnections, hasCredentials, updateConnectionStatus } from './stores/platform-store.svelte'
 import { initPublishStore } from './stores/publish-store.svelte'
 import { initImageStore } from './stores/image-store.svelte'
 import { initNetworkStatus } from './utils/network-status.svelte'
 import type { FileSystemAdapter } from './infrastructure/filesystem/types'
 import type { SecureStorage } from './infrastructure/secure-storage/types'
+import type { ZennCredentials } from './types/settings'
 
 export interface AppContext {
   fs: FileSystemAdapter
@@ -75,6 +79,39 @@ async function initializePlatformIntegration(
 }> {
   // Critical path (~110ms)
   const registry = new PlatformAdapterRegistry()                      // [10ms]
+  registry.register({
+    platformId: 'zenn',
+    platformName: 'Zenn',
+    capabilities: ['publish', 'update'],
+    create(credentials) {
+      const creds = credentials as ZennCredentials
+      const client = new GitHubApiClientImpl(
+        creds.githubToken,
+        creds.repositoryOwner,
+        creds.repositoryName,
+        creds.branch,
+      )
+      return new ZennAdapter(client)
+    },
+  })
+  registry.register({
+    platformId: 'note',
+    platformName: 'note',
+    capabilities: ['export-only'],
+    create: () => new ExportOnlyAdapter('note', 'note'),
+  })
+  registry.register({
+    platformId: 'microcms',
+    platformName: 'microCMS',
+    capabilities: ['export-only'],
+    create: () => new ExportOnlyAdapter('microcms', 'microCMS'),
+  })
+  registry.register({
+    platformId: 'contentful',
+    platformName: 'Contentful',
+    capabilities: ['export-only'],
+    create: () => new ExportOnlyAdapter('contentful', 'Contentful'),
+  })
   initPlatformStore(settingsManager)
   await loadConnections()                                             // [40ms]
   const exportService = new ExportService()                           // [10ms]

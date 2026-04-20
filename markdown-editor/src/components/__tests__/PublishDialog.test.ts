@@ -17,7 +17,7 @@ vi.mock('$lib/stores/publish-store.svelte', () => ({
 }))
 
 vi.mock('$lib/stores/platform-store.svelte', () => ({
-  getConnections: () => [{ platformId: 'zenn', displayName: 'Zenn' }],
+  getPublishableConnections: () => [{ platformId: 'zenn', displayName: 'Zenn' }],
   hasCredentials: () => true,
 }))
 
